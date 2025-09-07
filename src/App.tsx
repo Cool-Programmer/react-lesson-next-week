@@ -10,6 +10,7 @@ import Registration from './pages/Registration';
 import Login from './pages/Login';
 import Posts from './pages/Posts';
 import Photos from './pages/Photos';
+import PageNotFound from './pages/PageNotFound';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path='account/login' element={<Login />} />
           <Route path='/posts' element={<Posts posts={posts} />} />
           <Route path='/photos' element={<Photos photos={photos} />} />
+          <Route path='*' element={<PageNotFound />} />
         </Route>
       </Routes>
     </>
