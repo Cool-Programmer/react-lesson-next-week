@@ -40,10 +40,4 @@ type PhotoProps = {
     photo: Photo;
 }
 
-type HomePageProps = {
-  posts: Posts[];
-  photos: Photos[];
-};
-
-
 export type { GlobalProps, CTAProps, HeaderProps, PostProps, Post, PhotoProps, Photo };
