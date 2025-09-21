@@ -3,7 +3,11 @@ import { NavLink } from 'react-router-dom'
 import type { HeaderProps } from '../../common/Types';
 import CTAButton from './CTAButton';
 
-function Header({logoCDNUrl, menuItems} : HeaderProps) {
+import SearchIcon from '@mui/icons-material/Search'; 
+
+import ModalComponent from "../Modal/Modal"
+
+function Header({logoCDNUrl, menuItems, handleOpen, handleClose, open} : any) {
   return (
     <>
         <div className="container">
@@ -20,6 +24,11 @@ function Header({logoCDNUrl, menuItems} : HeaderProps) {
                             </li>
                         ))
                     }
+                    <li>
+                        <button type='button' onClick={handleOpen} className='nav-link px-2 link-secondary'>
+                            <SearchIcon />
+                        </button>
+                    </li>
                 </ul>
 
                 <div className="col-md-3 text-end">
@@ -28,6 +37,8 @@ function Header({logoCDNUrl, menuItems} : HeaderProps) {
                 </div>
             </header>
         </div>
+
+        <ModalComponent handleClose={handleClose} handleOpen={handleOpen} open={open}/>
     </>
   )
 }
