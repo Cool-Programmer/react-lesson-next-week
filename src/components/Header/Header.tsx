@@ -7,10 +7,10 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import ModalComponent from "../Modal/Modal"
 
-function Header({logoCDNUrl, menuItems, handleOpen, handleClose, open} : any) {
+function Header({logoCDNUrl, menuItems, handleOpen, handleClose, open, headerRef} : any) {
   return (
     <>
-        <div className="container">
+        <div className="container" ref={headerRef}>
             <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
                 <NavLink to="/" className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                     <img src={logoCDNUrl} width="120px" alt="Logo" />
