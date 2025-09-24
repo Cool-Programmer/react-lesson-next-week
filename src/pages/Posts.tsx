@@ -1,8 +1,13 @@
+import { useContext } from 'react';
 import type { Posts } from '../common/Interfaces';
 
 import SinglePost from '../components/Post/SinglePost';
+import { ContentContext } from '../App';
 
-function Posts({posts}: {posts: Posts[]}) {
+function Posts() {
+    const contextVal : any = useContext(ContentContext);
+    const posts: Posts[] = contextVal.posts;
+
     return (
         <div className="container">
             <div className="row">

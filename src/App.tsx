@@ -1,10 +1,13 @@
 import { Routes, Route } from 'react-router-dom'
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, createContext } from 'react';
 
 import axios from 'axios';
 
 import MainLayout from './layouts/MainLayout';
 import {logoCDNUrl, menuItems} from './data/Constants'
+
+export const AppContext = createContext({});
+export const ContentContext = createContext({});
 
 import HomePage from './pages/HomePage';
 import Registration from './pages/Registration';
@@ -12,6 +15,12 @@ import Login from './pages/Login';
 import Posts from './pages/Posts';
 import Photos from './pages/Photos';
 import PageNotFound from './pages/PageNotFound';
+
+const instance = axios.create({
+  baseURL: 'https://jsonplaceholder.typicode.com',
+  timeout: 1000,
+  headers: {'X-Custom-Header': 'serious-header'}
+});
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -26,12 +35,6 @@ function App() {
     headerRef?.current?.scrollIntoView({behavior : "smooth"})
   }
 
-  const instance = axios.create({
-    baseURL: 'https://jsonplaceholder.typicode.com',
-    timeout: 1000,
-    headers: {'X-Custom-Header': 'serious-header'}
-  });
-
   useEffect(() => {
     instance.get('/posts')
     .then((response: any) => setPosts(response.data))
@@ -45,18 +48,24 @@ function App() {
   }, [])
 
   return (
-    <>
-      <Routes>
-        <Route path='/' element={<MainLayout headerRef={headerRef} handleHeaderRefClick={handleHeaderRefClick} handleOpen={handleOpen} open={open} handleClose={handleClose} logoCDNUrl={logoCDNUrl} menuItems={menuItems} />}>
-          <Route path='/' element={<HomePage posts={posts} photos={photos} />} />
-          <Route path="account/registration" element={<Registration />} />
-          <Route path='account/login' element={<Login />} />
-          <Route path='/posts' element={<Posts posts={posts} />} />
-          <Route path='/photos' element={<Photos photos={photos} />} />
-          <Route path='*' element={<PageNotFound />} />
-        </Route>
-      </Routes>
-    </>
+    <AppContext.Provider value={{ logoCDNUrl, menuItems }}>
+      <ContentContext.Provider value={{ posts, photos }}>
+        <Routes>
+          <Route path="/" element={<MainLayout headerRef={headerRef} handleHeaderRefClick={handleHeaderRefClick} handleOpen={handleOpen} open={open} handleClose={handleClose} /> }>
+            <Route index element={<HomePage />} />
+            <Route path="posts" element={<Posts />} />
+            <Route path="photos" element={<Photos />} />
+
+            <Route path="account">
+              <Route path="registration" element={<Registration />} />
+              <Route path="login" element={<Login />} />
+            </Route>
+
+            <Route path="*" element={<PageNotFound />} />
+          </Route>
+        </Routes>
+      </ContentContext.Provider>
+    </AppContext.Provider>
   )
 }
 

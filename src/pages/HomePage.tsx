@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+
 import ArticleIcon from '@mui/icons-material/Article';
 import PhotoIcon from '@mui/icons-material/Photo';
 
@@ -11,10 +13,14 @@ type HomePageProps = {
   photos: Photos[];
 };
 
+import { ContentContext } from '../App';
 
-function HomePage({ posts, photos }: HomePageProps) {
-  let homepagePosts = posts.slice(0, 4);
-  let homepagePhotos = photos.slice(0, 4);
+function HomePage() {
+
+  const contextVal : any = useContext(ContentContext);
+
+  let homepagePosts = contextVal.posts.slice(0, 4);
+  let homepagePhotos = contextVal.photos.slice(0, 4);
 
   return (
     <div className="container">
